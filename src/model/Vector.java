@@ -6,45 +6,65 @@ package model;
  * @author Alexander Pluska
  *
  */
-class Vector {
-	protected double _1, _2;
-
+public class Vector {
+	public double x, y;
+	
+	
+	
 	/**
 	 * Constructs a new Vector with components _1 and _2.
 	 * 
-	 * @param _1
+	 * @param x
 	 *            first component of the Vector
-	 * @param _2
+	 * @param y
 	 *            second component of the Vector
 	 */
-	Vector(double x, double y) {
-		this._1 = x;
-		this._2 = y;
+	public Vector(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 
-	double abs() {
-		return Math.sqrt(_1 * _1 + _2 * _2);
+	public double abs() {
+		return Math.sqrt(x * x + y * y);
+	}
+	
+	
+	public static double distSqr(Vector first, Vector second) {
+		Vector delta = first.minus(second);
+		return delta.x*delta.x + delta.y*delta.y;
+	}
+	
+	public static double dotP(Vector one, Vector two) {
+		return one.x * two.x + one.y * two.y;
+	}
+	
+	
+	
+
+	
+	public void add(Vector v) {
+		this.x += v.x;
+		this.y += v.y;
+	}
+	
+	public void mult(double c) {
+		this.x *= c;
+		this.y *= c;
+	}
+	
+
+	public Vector plus(Vector v) {
+		return new Vector(this.x + v.x, this.y + v.y);
 	}
 
-	void add(Vector v) {
-		this._1 += v._1;
-		this._2 += v._2;
+	public Vector minus(Vector v) {
+		return new Vector(this.x - v.x, this.y - v.y);
 	}
 
-	Vector plus(Vector v) {
-		return new Vector(this._1 + v._1, this._2 + v._2);
+	public Vector times(double c) {
+		return new Vector(c * this.x, c * this.y);
 	}
-
-	Vector minus(Vector v) {
-		return new Vector(this._1 - v._1, this._2 - v._2);
-	}
-
-	void mult(double c) {
-		this._1 *= c;
-		this._2 *= c;
-	}
-
-	Vector times(double c) {
-		return new Vector(c * this._1, c * this._2);
-	}
+	
+	
+	
 }
