@@ -3,10 +3,12 @@ package model.objects;
 import acm.graphics.GObject;
 import model.Vector;
 
-public abstract class GameObject {
-	protected Vector center;
-	public abstract GObject toGObject();
+public interface GameObject {
+	Vector center = new Vector(0,0);
 	
+	public boolean contains(Vector point);
 	
-	public Vector getCenter() { return center; }
+	public void onCollision(DeflectDirection d);
+	
+	public GObject toGObject(double cvsWidth, double cvsHeight);
 }

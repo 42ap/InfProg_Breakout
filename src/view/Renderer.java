@@ -1,8 +1,8 @@
 package view;
 
 import acm.graphics.GCompound;
-import model.Game;
+import model.GameModel;
 
 public interface Renderer {
-	public void render(model.Game game);
+	public void render(model.GameModel game);
 }

@@ -7,13 +7,7 @@ package model;
  *
  */
 public class Vector {
-	protected double x, y;
-
-	public double getX() { return this.x; }
-	public double getY() { return this.y; }
-	
-	public void setX(double x) { this.x = x; }
-	public void setY(double y) { this.y = y; }
+	public double x, y;
 	
 	
 	
@@ -33,6 +27,19 @@ public class Vector {
 	public double abs() {
 		return Math.sqrt(x * x + y * y);
 	}
+	
+	
+	public static double distSqr(Vector first, Vector second) {
+		Vector delta = first.minus(second);
+		return delta.x*delta.x + delta.y*delta.y;
+	}
+	
+	public static double dotP(Vector one, Vector two) {
+		return one.x * two.x + one.y * two.y;
+	}
+	
+	
+	
 
 	
 	public void add(Vector v) {
@@ -57,4 +64,7 @@ public class Vector {
 	public Vector times(double c) {
 		return new Vector(c * this.x, c * this.y);
 	}
+	
+	
+	
 }

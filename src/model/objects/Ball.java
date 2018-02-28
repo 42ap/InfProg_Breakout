@@ -1,40 +1,53 @@
 package model.objects;
 
-import java.util.ArrayList;
 import acm.graphics.GOval;
 import model.Vector;
 
-public class Ball extends GameObject {
-
-	double radius;
-	Vector velocity;
-	public ArrayList<Vector> contactPoints;
+public class Ball implements GameObject, Updateable {
+	public Vector center;
+	public double radius;
+	Vector velocity; // velocity per 100ms
 
 	public Ball(Vector center, double radius, Vector velocity) {
-		super.center = center;
+		this.center = center;
 		this.radius = radius;
 		this.velocity = velocity;
-		
-		this.contactPoints = new ArrayList<Vector>();
-		for (int i = 0; i < 8; i++)
-			this.contactPoints
-					.add(center.plus(new Vector(Math.cos(Math.PI / 4 * i), Math.sin(Math.PI / 4 * i)).times(radius)));
-		
-		for (Vector point : contactPoints)
-			System.out.println(Double.toString(point.getX()) + " " + Double.toString(point.getY()));
+	}
+
+
+
+	@Override
+	public boolean contains(Vector point) {
+		return (Vector.distSqr(center, point) <= radius*radius);
 	}
 
 	@Override
-	public GOval toGObject() {
-		return new GOval(center.getX() - radius, center.getY() - radius, 2 * radius, 2 * radius);
+	public void update(double frameTime) {
+		center.add(velocity.times(frameTime / 100));
 	}
 
-	
-	public void update() {
-		center.add(velocity);
-		for (Vector point : contactPoints) {
-			point.add(velocity);
-		}
+	@Override
+	public void onCollision(DeflectDirection d) {
+		switch (d) {
+		case UpDown:
+			velocity.y *= -1;
+			break;
+		case LeftRight:
+			velocity.x *= -1;
+			break;
+		default:
+			break;
+		}			
 	}
+	
+	
+	@Override
+	public GOval toGObject(double cvsWidth, double cvsHeight) {
+		double scalar = Math.min(cvsWidth, cvsHeight);
+		GOval ball = new GOval((center.x - radius) * cvsWidth, (center.y - radius) * cvsHeight, 2 * radius * cvsWidth, 2 * radius * cvsHeight);
+		ball.setFilled(true);
+		return ball;
+	}
+
 
 }
