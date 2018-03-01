@@ -3,6 +3,7 @@ package model.objects;
 import java.awt.Color;
 
 import acm.graphics.GRect;
+import model.Helper;
 
 public class Brick extends RectangularObject {
 
@@ -21,8 +22,8 @@ public class Brick extends RectangularObject {
 	
 	
 	@Override
-	public GRect toGObject(double cvsWidth, double cvsHeight) {
-		GRect brick = new GRect(loc.x * cvsWidth, loc.y * cvsHeight, size.x * cvsWidth, size.y * cvsHeight);
+	public GRect toGObject(double cvsWidth, double cvsHeight, double aspectRatio) {
+		GRect brick = super.toGObject(cvsWidth, cvsHeight, aspectRatio);
 		brick.setFilled(true);
 		brick.setColor(Color.orange);
 		return brick;

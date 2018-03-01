@@ -13,18 +13,24 @@ public class BreakoutController extends GraphicsProgram {
 	private Renderer renderer;
 	
 	private double mouseX;
+	private double aspectRatio = 1;
+	
+	public void init() {
+		// Init
+		setSize((int)(600*aspectRatio), 600);
+		game = new GameModel(aspectRatio);
+		renderer = new DefaultRenderer(this);
+	}
+	
 	
 	
 	public void run() {
-		// Init
-		setSize(600, 600);
-		game = new GameModel();
-		renderer = new DefaultRenderer(this);
-		
+		// Stall until window is ready
+		while (!isStarted()) { }
 		
 		
 		// Game Loop
-		double maxFrameTime = 1000.0 / 60;
+		double maxFrameTime = 1000.0 / 120;
 		double lastFrameTime = 0;
 		while (game.isRunning)
 		{
@@ -33,6 +39,10 @@ public class BreakoutController extends GraphicsProgram {
 			update(lastFrameTime);
 			renderer.render(game);
 			
+			
+			// Check aspect ratio
+			if (this.getWidth() != this.getHeight() / aspectRatio )
+				this.setSize(this.getWidth(), (int)(this.getWidth()/aspectRatio));
 			
 			
 			// Pause so we don't exceed max FPS
