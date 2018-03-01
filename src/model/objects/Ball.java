@@ -6,7 +6,7 @@ import model.Vector;
 public class Ball implements GameObject, Updateable {
 	public Vector center;
 	public double radius;
-	Vector velocity; // velocity per 100ms
+	public Vector velocity; // velocity per 100ms
 
 	public Ball(Vector center, double radius, Vector velocity) {
 		this.center = center;
@@ -16,10 +16,6 @@ public class Ball implements GameObject, Updateable {
 
 
 
-	@Override
-	public boolean contains(Vector point) {
-		return (Vector.distSqr(center, point) <= radius*radius);
-	}
 
 	@Override
 	public void update(double frameTime) {
@@ -41,10 +37,15 @@ public class Ball implements GameObject, Updateable {
 	}
 	
 	
+	
+    public void householderCollision(Vector d) {
+        velocity = velocity.minus(d.times(2 * (d.x * velocity.x + d.y * velocity.y)));
+    }
+	
+	
 	@Override
-	public GOval toGObject(double cvsWidth, double cvsHeight) {
-		double scalar = Math.min(cvsWidth, cvsHeight);
-		GOval ball = new GOval((center.x - radius) * cvsWidth, (center.y - radius) * cvsHeight, 2 * radius * cvsWidth, 2 * radius * cvsHeight);
+	public GOval toGObject(double cvsWidth, double cvsHeight, double aspectRatio) {
+		GOval ball = new GOval((center.x - radius) * cvsWidth, (center.y - radius) * cvsHeight * aspectRatio, 2 * radius * cvsWidth, 2 * radius * cvsHeight * aspectRatio);
 		ball.setFilled(true);
 		return ball;
 	}

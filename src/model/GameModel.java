@@ -13,12 +13,16 @@ public class GameModel {
 	protected ArrayList<Brick> bricks;
 	
 	public boolean isRunning;
+	private double aspectRatio;
 	
 	
-	public GameModel() {
-		ball = new Ball(new Vector(0.9, 0.03), 0.02, new Vector(0.02, 0.02));
-		bounds = new Bounds(0, 0, 1, 1);
-		paddle = new Paddle(0.5, 0.95, 0.2, 0.03);
+	
+	public GameModel(double aspectRatio) {
+		this.aspectRatio = aspectRatio;
+		
+		bounds = new Bounds(0, 0, 1, 1/aspectRatio);
+		ball = new Ball(new Vector(0.9, 0.9 * bounds.size.y), 0.01, new Vector(0.03, -0.03));
+		paddle = new Paddle(0.5, 0.95 * bounds.size.y, 0.2, 0.03);
 		
 		bricks = new ArrayList<Brick>();
 		for (int i = 0; i < 6; i++)
@@ -36,10 +40,11 @@ public class GameModel {
 		isRunning = !(isWon() || isLost());
 		
 		// ** Check mouse
-		if (mouseX > 0 && mouseX < 1) {
-			paddle.loc.x = mouseX - 0.5 * paddle.size.x;
-		}
-		
+        if (mouseX > 0 && mouseX < 1) {
+        	double delta = (mouseX - paddle.getCenterX());
+        	paddle.speed = 3 * ball.velocity.abs() * Math.signum(delta) * Math.sqrt(Math.abs(delta));  
+        }
+        
 		
 		// ** Check collision
 		// Ball <-> Bounds
@@ -53,31 +58,30 @@ public class GameModel {
 		}
 		
 		// Ball <-> Paddle
-		if (ball.center.y + ball.radius >= paddle.loc.y) {
-			if ( ball.center.x > paddle.loc.x && ball.center.x < paddle.loc.x+paddle.size.x) {
-				ball.onCollision(DeflectDirection.UpDown);
-				ball.update(frameTime);
-			}
-		}
+        if (ball.center.y + ball.radius >= paddle.top()) {
+            if ( ball.center.x > paddle.loc.x && ball.center.x < paddle.right()) {
+                double rel = (paddle.getCenterX() - ball.center.x) / (2*paddle.size.x);
+                Vector v = new Vector(rel, 1 + rel * -ball.velocity.x / ball.velocity.y);
+                v.mult(1 / v.abs());
+                ball.update(-frameTime);
+                ball.householderCollision(v);
+                ball.update(frameTime);
+            }
+        }
 		
-		// Ball <-> Bricks
-		double ballLeft = ball.center.x - ball.radius;
-		double ballRight = ball.center.x + ball.radius;
-		double ballTop = ball.center.y - ball.radius;
-		double ballBottom = ball.center.y + ball.radius;
-		
-		for (int i = bricks.size()-1; i > 0; i--) {
+		// Ball <-> Bricks	
+		for (int i = bricks.size()-1; i >= 0; i--) {
 			Brick b = bricks.get(i);
 			
 			// Find the closest point to the circle within the rectangle
-			Vector closestPt = new Vector(clamp(ball.center.x, b.left(), b.right()), clamp(ball.center.y, b.top(), b.bottom()));
+			Vector closestPt = new Vector(Helper.clamp(ball.center.x, b.left(), b.right()), Helper.clamp(ball.center.y, b.top(), b.bottom()));
 			// Calculate the distance between the circle's center and this closest point
 			double dist = Vector.distSqr(ball.center, closestPt);
 			
 			
 			// If the distance is less than the circle's radius, an intersection occurs
 			if (dist < (ball.radius * ball.radius)) {
-				DeflectDirection dd = (isBetween(ball.center.x, b.left(), b.right()) ? DeflectDirection.UpDown : DeflectDirection.LeftRight);
+				DeflectDirection dd = (Helper.isBetween(ball.center.x, b.left(), b.right()) ? DeflectDirection.UpDown : DeflectDirection.LeftRight);
 				ball.onCollision(dd);
 				ball.update(frameTime);
 				bricks.remove(i);
@@ -94,11 +98,11 @@ public class GameModel {
 	public ArrayList<GObject> toGObjects(double cvsWidth, double cvsHeight) {
 		ArrayList<GObject> result = new ArrayList<GObject>();
 		
-		result.add(paddle.toGObject(cvsWidth, cvsHeight));
-		result.add(ball.toGObject(cvsWidth, cvsHeight));
+		result.add(paddle.toGObject(cvsWidth, cvsHeight, aspectRatio)); 
+		result.add(ball.toGObject(cvsWidth, cvsHeight, aspectRatio));
 		
 		for (Brick brick : bricks)
-			result.add(brick.toGObject(cvsWidth, cvsHeight));
+			result.add(brick.toGObject(cvsWidth, cvsHeight, aspectRatio));
 		
 		
 		GRect bounds = new GRect(1, 1, cvsWidth-2, cvsHeight-2);
@@ -110,19 +114,7 @@ public class GameModel {
 	
 	
 	
-	private double clamp(double val, double low, double high) {
-		if (val < low)
-			return low;
-		else if (val > high)
-			return high;
-		
-		return val;
-	}
-	
-	private boolean isBetween(double val, double low, double high) {
-		return val <= high && val >= low;
-	}
-	
+
 	
 	
 	
@@ -131,7 +123,7 @@ public class GameModel {
 	}
 	
 	private boolean isLost() {
-		return ball.center.y > bounds.loc.y + bounds.size.y;
+		return ball.center.y > paddle.bottom();
 	}
 
 }
