@@ -6,10 +6,10 @@ import model.GameModel;
 
 public class DefaultRenderer implements Renderer {
 	
-	GraphicsProgram canvas;
+	GCanvas canvas;
 	private GCompound last;
 	
-	public DefaultRenderer(GraphicsProgram canvas) {
+	public DefaultRenderer(GCanvas canvas) {
 		this.canvas = canvas;
 		last = new GCompound();
 	}

@@ -19,7 +19,7 @@ public class BreakoutController extends GraphicsProgram {
 		// Init
 		setSize((int)(600*aspectRatio), 600);
 		game = new GameModel(aspectRatio);
-		renderer = new DefaultRenderer(this);
+		renderer = new DefaultRenderer(this.getGCanvas());
 	}
 	
 	
