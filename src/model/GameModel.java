@@ -26,8 +26,8 @@ public class GameModel {
 		
 		bricks = new ArrayList<Brick>();
 		for (int i = 0; i < 6; i++)
-			for (int j = 0; j < 5; j++)
-				bricks.add(new Brick(0.075 + (0.15 * i), 0.05 + (0.08 * j), 0.1, 0.05));
+			for (int j = 0; j < 1; j++)
+				bricks.add(new Brick(0.075 + (0.15 * i), 0.05 + (0.08 * j), 0.1, 0.03));
 		
 		isRunning = true;
 	}
@@ -98,15 +98,15 @@ public class GameModel {
 	public ArrayList<GObject> toGObjects(double cvsWidth, double cvsHeight) {
 		ArrayList<GObject> result = new ArrayList<GObject>();
 		
-		result.add(paddle.toGObject(cvsWidth, cvsHeight, aspectRatio)); 
-		result.add(ball.toGObject(cvsWidth, cvsHeight, aspectRatio));
+		result.add(ball.toGObject(cvsWidth, cvsHeight, aspectRatio)); 
+		result.add(paddle.toGObject(cvsWidth, cvsHeight, aspectRatio));
 		
 		for (Brick brick : bricks)
 			result.add(brick.toGObject(cvsWidth, cvsHeight, aspectRatio));
 		
 		
 		GRect bounds = new GRect(1, 1, cvsWidth-2, cvsHeight-2);
-		result.add(bounds);
+		//result.add(bounds);
 		
 		return result;
 	}
