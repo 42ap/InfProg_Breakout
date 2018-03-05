@@ -1,4 +1,4 @@
-package view.LightHouseAPI;
+package view.renderer.LightHouseAPI;
 
 import java.io.IOException;
 import java.net.URI;

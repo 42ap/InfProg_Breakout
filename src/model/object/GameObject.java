@@ -1,4 +1,4 @@
-package model.objects;
+package model.object;
 
 import acm.graphics.GObject;
 import model.Vector;
@@ -8,5 +8,5 @@ public interface GameObject {
 	
 	public void onCollision(DeflectDirection d);
 	
-	public GObject toGObject(double cvsWidth, double cvsHeight, double aspectRatio);
+	public GObject toGObject(double cvsWidth, double cvsHeight);
 }

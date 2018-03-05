@@ -1,4 +1,4 @@
-package model.objects;
+package model.object;
 
 
 public class Bounds extends RectangularObject {

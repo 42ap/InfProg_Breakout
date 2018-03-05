@@ -1,4 +1,6 @@
-package model.objects;
+package model.object;
+
+import java.awt.Color;
 
 import acm.graphics.GOval;
 import model.Vector;
@@ -44,9 +46,11 @@ public class Ball implements GameObject, Updateable {
 	
 	
 	@Override
-	public GOval toGObject(double cvsWidth, double cvsHeight, double aspectRatio) {
+	public GOval toGObject(double cvsWidth, double cvsHeight) {
+		double aspectRatio = cvsWidth / cvsHeight;
 		GOval ball = new GOval((center.x - radius) * cvsWidth, (center.y - radius) * cvsHeight * aspectRatio, 2 * radius * cvsWidth, 2 * radius * cvsHeight * aspectRatio);
 		ball.setFilled(true);
+		ball.setColor(new Color(245, 245, 245));
 		return ball;
 	}
 

@@ -1,4 +1,4 @@
-package model.objects;
+package model.object;
 
 import acm.graphics.GRect;
 import model.Vector;
@@ -38,7 +38,8 @@ public abstract class RectangularObject implements GameObject {
 	public void onCollision(DeflectDirection d) { }
 
 	@Override
-	public GRect toGObject(double cvsWidth, double cvsHeight, double aspectRatio) {
+	public GRect toGObject(double cvsWidth, double cvsHeight) {
+		double aspectRatio = cvsWidth / cvsHeight;
 		return new GRect(loc.x * cvsWidth, loc.y * aspectRatio * cvsHeight, size.x * cvsWidth, size.y * aspectRatio * cvsHeight);
 	}
 }

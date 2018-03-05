@@ -1,4 +1,4 @@
-package model.objects;
+package model.object;
 
 public interface Updateable {
 	public void update(double frameTime);

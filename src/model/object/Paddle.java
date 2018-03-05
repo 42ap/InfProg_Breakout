@@ -1,4 +1,4 @@
-package model.objects;
+package model.object;
 
 import java.awt.Color;
 
@@ -22,8 +22,8 @@ public class Paddle extends RectangularObject implements Updateable {
 	
 	
 	@Override
-	public GRect toGObject(double cvsWidth, double cvsHeight, double aspectRatio) {
-		GRect paddle = super.toGObject(cvsWidth, cvsHeight, aspectRatio);
+	public GRect toGObject(double cvsWidth, double cvsHeight) {
+		GRect paddle = super.toGObject(cvsWidth, cvsHeight);
 		paddle.setFilled(true);
 		paddle.setColor(Color.blue);
 		return paddle;
