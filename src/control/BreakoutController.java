@@ -3,14 +3,9 @@ package control;
 import java.util.ArrayList;
 
 import acm.program.GraphicsProgram;
-import model.GameModel;
-import model.Helper;
-import view.GameView;
-import view.MainmenuView;
-import view.Renderable;
-import view.renderer.DefaultRenderer;
-import view.renderer.LighthouseRenderer;
-import view.renderer.Renderer;
+import model.*;
+import view.*;
+import view.renderer.*;
  
  
 @SuppressWarnings("serial")
@@ -78,13 +73,23 @@ public class BreakoutController extends GraphicsProgram {
    
    
     private void update(double lastFrameTime) {
-    	// change view and start game (after 4 secs)
+    	// change view and start game (after 3 secs)
     	if (view.title().equals("MAIN") && System.nanoTime() - GAMESTART > 3_000_000_000L) {
     		view = new GameView(game);
             for (Renderer r : renderer)
             	r.setView(view);
             game.start();
     	}
+    	
+    	
+    	//change view if game is won
+    	if (view.title().equals("GAME") && !game.isRunning) {
+    		view = new EndView();
+            for (Renderer r : renderer)
+            	r.setView(view);
+    	}
+    	
+    	
     	
     	// Update game and view
         double mouseX = java.awt.MouseInfo.getPointerInfo().getLocation().getX() - this.getLocationOnScreen().getX();

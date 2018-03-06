@@ -7,7 +7,7 @@ import model.Helper;
 
 public class Brick extends RectangularObject {
 
-	public final static byte MAXSTATE = 4;
+	public final static byte MAXSTATE = 3;
 	public byte state;
 	
 	public Brick(double x, double y, double w, double h) {

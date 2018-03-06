@@ -23,7 +23,7 @@ public class GameModel {
 		
 		bricks = new ArrayList<Brick>();
 		for (int i = 0; i < 6; i++)
-			for (int j = 0; j < 1; j++)
+			for (int j = 0; j < 2; j++)
 				bricks.add(new Brick(0.075 + (0.15 * i), 0.05 + (0.08 * j), 0.1, 0.03));
 	}
 	

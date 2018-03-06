@@ -22,7 +22,4 @@ public class Helper {
         double scale = (newhigh - newlow) / (oldhigh - oldlow);
         return (val  - oldlow) * scale + newlow;
 	}
-	
-	
-	
 }
