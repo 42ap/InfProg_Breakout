@@ -29,7 +29,7 @@ public class Brick extends RectangularObject {
 	 */
 	public Brick(double x, double y, double w, double h) {
 		super(x, y, w, h);
-		state = MAXSTATE;
+		state = (byte)acm.util.RandomGenerator.getInstance().nextInt(1, MAXSTATE);
 	}
 	
 	

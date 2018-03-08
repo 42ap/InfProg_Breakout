@@ -1,6 +1,7 @@
 package view;
 
-import java.util.ArrayList;
+
+import java.util.HashMap;
 import acm.graphics.GObject;
 
 public interface View {
@@ -8,5 +9,5 @@ public interface View {
 	
 	public void update(double mouseX, double mouseY, double runtime);
 	
-	public ArrayList<GObject> toGObjects(int cvsWidth, int cvsHeight);
+	public HashMap<String, GObject> toGObjects(int cvsWidth, int cvsHeight);
 }

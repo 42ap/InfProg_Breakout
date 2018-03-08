@@ -1,7 +1,7 @@
 package view;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import acm.graphics.GRect;
 import acm.graphics.GObject;
@@ -21,17 +21,16 @@ public class EndView implements View {
 	}
 
 	@Override
-	public ArrayList<GObject> toGObjects(int cvsWidth, int cvsHeight) {	
-		ArrayList<GObject> list = new ArrayList<GObject>();
+	public HashMap<String, GObject>  toGObjects(int cvsWidth, int cvsHeight) {	
+		HashMap<String, GObject>  list = new HashMap<String, GObject>();
 		
 		for (int i = 0; i < cvsHeight; i++) {
 			GRect bar = new GRect(0, i, cvsWidth, 1);
 			bar.setColor(Color.getHSBColor((i + offset) / (float)cvsHeight, 1f, 1f));
-			list.add(bar);
+			list.put("LINE" + i, bar);
 		}
 		
-		
-		
+	
 		return list;
 	}
 	

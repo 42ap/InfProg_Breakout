@@ -104,21 +104,5 @@ public class Vector {
 	 */
 	public static Vector times(Vector v, double c) {
 		return new Vector(c * v.x, c * v.y);
-	}
-	
-	
-	
-	
-	/**
-	 * Returns a random Vector with components in (-1, 1).
-	 * @return
-	 */
-	public static Vector random() {
-		RandomGenerator rgen = new RandomGenerator();
-		double x = rgen.nextDouble(-1, 1);
-		double y = rgen.nextDouble(-1, 1);
-		return new Vector(x, y);
-	}
-	
-	
+	}	
 }

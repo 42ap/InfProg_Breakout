@@ -1,18 +1,21 @@
 package view;
 
-import java.util.ArrayList;
+
+import java.awt.Font;
+import java.util.HashMap;
+
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 
 
 
 
-public class MenuView implements View {
+public class StartView implements View {
 
 
 	int countdown = 3;
 	
-	public MenuView() {
+	public StartView() {
 		
 	}
 	
@@ -23,12 +26,13 @@ public class MenuView implements View {
 	
 	
 	@Override
-	public ArrayList<GObject> toGObjects(int cvsWidth, int cvsHeight) {
-		ArrayList<GObject> objects = new ArrayList<GObject>();
+	public HashMap<String, GObject> toGObjects(int cvsWidth, int cvsHeight) {
+		HashMap<String, GObject> objects = new HashMap<String, GObject>();
 		
 		
 		GLabel label = new GLabel("" + countdown, cvsWidth / 2, cvsHeight / 2);
-		objects.add(label);
+		label.setFont(new Font("Calibri", 0, 30));
+		objects.put("Label", label);
 		
 		return objects;
 	}

@@ -48,6 +48,13 @@ public class Ball implements GameObject, Updateable {
 	public void update(double frameTime) {
 		center.add(Vector.times(velocity, frameTime / 100));
 	}
+	
+	
+	
+	
+	public void speedup() {
+		velocity.mult(1.02);
+	}
 
 	
 	/**
@@ -121,7 +128,7 @@ public class Ball implements GameObject, Updateable {
 	 */
 	@Override
 	public double right() {
-		return center.x -+radius;
+		return center.x + radius;
 	}
 
 	/**

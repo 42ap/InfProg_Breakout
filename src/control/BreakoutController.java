@@ -1,6 +1,7 @@
 package control;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import acm.program.GraphicsProgram;
 import model.*;
@@ -23,6 +24,7 @@ public class BreakoutController extends GraphicsProgram {
 	private static final double ASPECTRATIO = 2;
 	private static final boolean STREAM_TO_LIGHTHOUSE = false;
 
+	
 	private static double GAMESTART;
 
 	
@@ -48,13 +50,13 @@ public class BreakoutController extends GraphicsProgram {
 		setTitle("BREAKOUT - Marek Hummel / Alexander Pluska");
 
 		game = new GameModel(ASPECTRATIO);
-		view = new MenuView();
-
-		renderer = new ArrayList<Renderer>();
-		renderer.add(new DefaultRenderer(view, this.getGCanvas()));
-
+        view = new GameView(game);
+        game.start();
+        
+        renderer = new ArrayList<Renderer>();
+        renderer.add(new DefaultRenderer(view, this.getGCanvas()));
 		if (STREAM_TO_LIGHTHOUSE)
-			renderer.add(new LighthouseRenderer(null));
+			renderer.add(new LighthouseRenderer(view));
 	}
 	
 	

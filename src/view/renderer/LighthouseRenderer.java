@@ -2,6 +2,7 @@ package view.renderer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import acm.graphics.GObject;
 import model.GameModel;
@@ -58,9 +59,14 @@ public class LighthouseRenderer implements Renderer {
 				
 		// Fill data if view is existent
 		if (view != null) {
-			for(GObject object : view.toGObjects(28, 14)) {
+			
+			HashMap<String, GObject> gobjects = view.toGObjects(28, 14);
+			for(String key : gobjects.keySet()) {
+				if (key.equals("LEVEL") || key.equals("BOUNDS"))
+					continue;
 				
 				// Loop over each pixel of in the current object
+				GObject object = gobjects.get(key); 		
 				for(int i = 0; i < object.getWidth(); i++) {
 					for(int j = 0; j < object.getHeight(); j++) {
 						

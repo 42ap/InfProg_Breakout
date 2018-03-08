@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import acm.graphics.*;
+import acm.util.RandomGenerator;
 import model.object.*;
 
 /**
@@ -17,6 +17,7 @@ public class GameModel {
 	public ArrayList<Brick> bricks;
 	
 	public boolean isRunning;
+	public int currLevel;
 	
 	
 	
@@ -30,14 +31,12 @@ public class GameModel {
 		// and depending on the aspectratio from 0 to something on the y-axis.
 		
 		bounds = new Bounds(0, 0, 1, 1/aspectRatio);
-		ball = new Ball(new Vector(0.9, 0.9 * bounds.bottom()), 0.01, new Vector(0.03, -0.03));
 		paddle = new Paddle(0.5, 0.95 * bounds.bottom(), 0.2, 0.03);
+		ball = new Ball(new Vector(RandomGenerator.getInstance().nextDouble(), 0.8 * bounds.bottom()), 0.01, new Vector(0.03, -0.03));
+		
 		
 		// Default level
-		bricks = new ArrayList<Brick>();
-		for (int i = 0; i < 6; i++)
-			for (int j = 0; j < 2; j++)
-				bricks.add(new Brick(0.075 + (0.15 * i), 0.05 + (0.08 * j), 0.1, 0.03));
+		bricks = LevelGenerator.getLevel(currLevel);
 	}
 	
 	
@@ -57,9 +56,15 @@ public class GameModel {
 	 */
 	public void update(double frameTime, double mouseX) {	
 		// ** Check game status
-		isRunning = isRunning && !(isWon() || isLost());
+		isRunning = isRunning && !(isGameWon() || isGameLost());
 		if (!isRunning)
 			return;
+		
+		// Next level
+		if (isLevelWon()) {
+			this.bricks = LevelGenerator.getLevel(++currLevel);
+		}
+		
 		
 		
 		// ** Check mouse
@@ -70,24 +75,24 @@ public class GameModel {
         
 		
 		// ** Check collision
+    	// Before updating the speed the object will be updated back in time, so that the ball is outside the paddle for sure 
+        // (as it was one frame ago), and the collision is not triggering every frame
+        
 		// Ball <-> Bounds
 		if (ball.left() <= bounds.left() || ball.right() >= bounds.right()) {
+			ball.update(-frameTime);
 			ball.onCollision(DeflectDirection.LeftRight);
-			ball.update(frameTime);
 		}
 		if (ball.top() <= bounds.top()) {
+			ball.update(-frameTime);
 			ball.onCollision(DeflectDirection.UpDown);
-			ball.update(frameTime);
 		}
 		
 		// Ball <-> Paddle
         if (ball.bottom() >= paddle.top()) {
-            if ( ball.center().x > paddle.left() && ball.center().x < paddle.right()) {
-            	// Basically updating back in time, so that the ball is outside the paddle for sure (as it was one frame ago), and the collision is not triggering every frame
-             
+            if (ball.center().x > paddle.left() && ball.center().x < paddle.right()) {
                 ball.update(-frameTime); 
                 ball.householderCollision(paddle.center().x - ball.center().x, paddle.right() - paddle.left());
-                ball.update(frameTime);
             }
         }
 		
@@ -104,13 +109,15 @@ public class GameModel {
 			// If the distance is less than the circle's radius, an intersection occurs
 			if (dist < (ball.radius() * ball.radius())) {
 				DeflectDirection dd = (Helper.isBetween(ball.center().x, b.left(), b.right()) ? DeflectDirection.UpDown : DeflectDirection.LeftRight);
-				ball.onCollision(dd);
-				ball.update(frameTime);
+				ball.update(-frameTime);
+				ball.onCollision(dd);			
 				b.onCollision(null);
 				
-				// Remove from array if brick is "broken"
-				if (b.state == 0)
+				// Remove from array if brick is "broken" and speed things up
+				if (b.state == 0) {
 					bricks.remove(i);
+					ball.speedup();
+				}
 			}
 		}
 		
@@ -128,15 +135,19 @@ public class GameModel {
 	 * Checks if game is won.
 	 * @return true if no bricks are left
 	 */
-	private boolean isWon() {
+	private boolean isLevelWon() {
 		return bricks.isEmpty();
+	}
+	
+	private boolean isGameWon() {
+		return currLevel == LevelGenerator.MAXLEVEL && isLevelWon();
 	}
 	
 	/**
 	 * Checks if game is lost.
 	 * @return true if ball touches the ground
 	 */
-	private boolean isLost() {
+	private boolean isGameLost() {
 		return ball.center().y > paddle.bottom();
 	}
 

@@ -50,7 +50,7 @@ public class Paddle extends RectangularObject implements Updateable {
 	 * @param delta The x difference between center of paddle and mouse
 	 */
 	public void setSpeed(double delta) {
-		speed = 0.1 * Math.signum(delta) * Math.sqrt(Math.abs(delta));  
+		speed = 0.15 * Math.signum(delta) * Math.sqrt(Math.abs(delta));  
 	}
 	
     /**

@@ -1,5 +1,7 @@
 package view.renderer;
 
+import java.util.HashMap;
+
 import acm.graphics.*;
 import acm.program.GraphicsProgram;
 import model.GameModel;
@@ -46,7 +48,8 @@ public class DefaultRenderer implements Renderer {
 	public void render() {		
 		// Create and add new one compound
 		GCompound entities = new GCompound();
-		for (GObject object : view.toGObjects(canvas.getWidth(), canvas.getHeight())) {
+		HashMap<String, GObject> gobjects = view.toGObjects(canvas.getWidth(), canvas.getHeight());
+		for (GObject object : gobjects.values()) {
 			entities.add(object);
 		}
 		
