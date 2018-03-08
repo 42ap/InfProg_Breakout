@@ -1,11 +1,9 @@
 package view.renderer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import acm.graphics.GObject;
-import model.GameModel;
 import view.View;
 import view.renderer.LightHouseAPI.LighthouseDisplay;
 
@@ -31,7 +29,7 @@ public class LighthouseRenderer implements Renderer {
 
 		// Try connecting to the display
 		//display = new LighthouseDisplay("be42ap", "API-TOK_15X9-H9yq-9LJF-Y5c/-5+cI");
-		display = new LighthouseDisplay("stu210310", "API-TOK_nbsG-oBel-WVXl-dP5K-0j1x");
+		display = new LighthouseDisplay("stu210310", "API-TOK_Dc29-PgGO-RDnh-Kh8+-ExyR");
 		try {
 		    display.connect();
 		} catch (Exception e) {
@@ -60,8 +58,9 @@ public class LighthouseRenderer implements Renderer {
 		// Fill data if view is existent
 		if (view != null) {
 			
-			HashMap<String, GObject> gobjects = view.toGObjects(28, 14);
+			TreeMap<String, GObject> gobjects = view.toGObjects(28, 14);
 			for(String key : gobjects.keySet()) {
+				// Dont display level and bounds on lighthouse
 				if (key.equals("LEVEL") || key.equals("BOUNDS"))
 					continue;
 				

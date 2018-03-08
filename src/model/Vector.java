@@ -1,7 +1,5 @@
 package model;
 
-import acm.util.RandomGenerator;
-
 /**
  * 2-Dimensional real valued Vector.
  */

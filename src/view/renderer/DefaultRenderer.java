@@ -1,10 +1,8 @@
 package view.renderer;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import acm.graphics.*;
-import acm.program.GraphicsProgram;
-import model.GameModel;
 import view.View;
 
 /**
@@ -48,7 +46,7 @@ public class DefaultRenderer implements Renderer {
 	public void render() {		
 		// Create and add new one compound
 		GCompound entities = new GCompound();
-		HashMap<String, GObject> gobjects = view.toGObjects(canvas.getWidth(), canvas.getHeight());
+		TreeMap<String, GObject> gobjects = view.toGObjects(canvas.getWidth(), canvas.getHeight());
 		for (GObject object : gobjects.values()) {
 			entities.add(object);
 		}

@@ -1,32 +1,52 @@
 package view;
 
 import java.awt.Color;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.graphics.GRect;
 import model.GameModel;
-import model.object.Brick;
 
+/**
+ * View of the game itself.
+ */
 public class GameView implements View {
+	
+	// ***** FIELDS *****
 	
 	private GameModel game;
 	
 	
+	/**
+	 * Constructor needs a game model so it can display something.
+	 * @param game
+	 */
 	public GameView(GameModel game) {
 		this.game = game;
 	}
 
 	
+	// ***** MAIN METHODS *****
 	
+	
+	
+	/** 
+	 * Update method not needed in this view, everything updates in model.
+	 * @param runtime Ignored
+	 */
 	@Override
-	public void update(double mouseX, double mouseY, double runtime) { }
+	public void update(double runtime) { }
 	
 	
+	/**
+	 * Converts this view into displayable GObjects.
+	 * @param cvsWidth The width of the canvas
+	 * @param cvsHeight The height of the canvas
+	 */
 	@Override
-	public HashMap<String, GObject> toGObjects(int cvsWidth, int cvsHeight) {
-		HashMap<String, GObject>  result = new HashMap<String, GObject>();
+	public TreeMap<String, GObject> toGObjects(int cvsWidth, int cvsHeight) {
+		TreeMap<String, GObject>  result = new TreeMap<String, GObject>();
 		
 		// Background
 		GRect bg = new GRect(0, 0, cvsWidth, cvsHeight);
@@ -45,10 +65,10 @@ public class GameView implements View {
 		// Bounds
 		GRect bounds = new GRect(1, 1, cvsWidth-2, cvsHeight-2);
 		bounds.setColor(Color.WHITE);
-		//result.put("BOUNDS", bounds);
+		result.put("BOUNDS", bounds);
 		
 		// Level indicator
-		GLabel level = new GLabel("" + game.currLevel, 0, 0.05*cvsHeight);
+		GLabel level = new GLabel("" + (game.currLevel+1), 3, 0.05*cvsHeight);
 		level.setColor(Color.WHITE);
 		result.put("LEVEL", level);
 		
@@ -56,7 +76,9 @@ public class GameView implements View {
 	}
 
 
-
+	/**
+	 * Returns the title of this view.
+	 */
 	@Override
 	public String title() {
 		return "GAME";

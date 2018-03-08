@@ -23,12 +23,12 @@ public class GameModel {
 	
 	/**
 	 * Constructor, initializes the game objects.
-	 * @param aspectRatio The aspectratio of the view, to have an reasonable model
+	 * @param aspectRatio The aspect ratio of the view, to have an reasonable model
 	 */
 	public GameModel(double aspectRatio) {		
 		
 		// The model works with a system going from 0 to 1 on the x-axis, 
-		// and depending on the aspectratio from 0 to something on the y-axis.
+		// and depending on the aspect ratio from 0 to something on the y-axis.
 		
 		bounds = new Bounds(0, 0, 1, 1/aspectRatio);
 		paddle = new Paddle(0.5, 0.95 * bounds.bottom(), 0.2, 0.03);
@@ -89,8 +89,8 @@ public class GameModel {
 		}
 		
 		// Ball <-> Paddle
-        if (ball.bottom() >= paddle.top()) {
-            if (ball.center().x > paddle.left() && ball.center().x < paddle.right()) {
+        if (Helper.isBetween(ball.bottom(), paddle.top(), paddle.center().y)) {
+            if (Helper.isBetween(ball.center().x, paddle.left(), paddle.right())) {
                 ball.update(-frameTime); 
                 ball.householderCollision(paddle.center().x - ball.center().x, paddle.right() - paddle.left());
             }

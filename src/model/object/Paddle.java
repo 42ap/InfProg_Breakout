@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import acm.graphics.GRect;
 import model.Helper;
-import model.Vector;
 
 /**
  * Class which represents the paddle of the game.
