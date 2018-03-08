@@ -7,9 +7,10 @@ import acm.graphics.GRect;
 import model.GameModel;
 import model.object.Brick;
 
-public class GameView implements Renderable {
+public class GameView implements View {
 	
 	private GameModel game;
+	
 	
 	public GameView(GameModel game) {
 		this.game = game;
@@ -18,13 +19,11 @@ public class GameView implements Renderable {
 	
 	
 	@Override
-	public void update(double mouseX, double mouseY, double runtime) {
-
-	}
+	public void update(double mouseX, double mouseY, double runtime) { }
 	
 	
 	@Override
-	public ArrayList<GObject> toGObjects(double cvsWidth, double cvsHeight) {
+	public ArrayList<GObject> toGObjects(int cvsWidth, int cvsHeight) {
 		ArrayList<GObject> result = new ArrayList<GObject>();
 		
 		
@@ -40,7 +39,6 @@ public class GameView implements Renderable {
 		for (Brick brick : game.bricks)
 			result.add(brick.toGObject(cvsWidth, cvsHeight));
 		
-	
 		
 		return result;
 	}

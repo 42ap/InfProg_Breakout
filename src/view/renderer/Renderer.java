@@ -1,10 +1,17 @@
 package view.renderer;
 
-import view.Renderable;
+import view.View;
 
+/**
+ * Interface the renderers have to implement
+ */
 public interface Renderer {
-	Renderable view = null;
+	// The view to be rendered
+	View view = null;
 	
-	public void setView(Renderable view);
+	// Set new view
+	public void setView(View view);
+	
+	// Render
 	public void render();
 }

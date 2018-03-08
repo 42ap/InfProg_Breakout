@@ -5,15 +5,27 @@ import java.util.ArrayList;
 
 import acm.graphics.GObject;
 import model.GameModel;
-import view.Renderable;
+import view.View;
 import view.renderer.LightHouseAPI.LighthouseDisplay;
 
+/**
+ * A renderer for the lighthouse.
+ */
 public class LighthouseRenderer implements Renderer {
 	
-	private Renderable view;
-	LighthouseDisplay display;
+	// ***** FIELDS *****
 	
-	public LighthouseRenderer(Renderable view) {
+	private View view;
+	private LighthouseDisplay display;
+	
+	
+	
+	
+	/**
+	 * Constructor, tries to connect with the lighthouse.
+	 * @param view The initial view
+	 */
+	public LighthouseRenderer(View view) {
 		this.view = view;
 
 		// Try connecting to the display
@@ -28,20 +40,31 @@ public class LighthouseRenderer implements Renderer {
 	}
 	
 	
-	public void setView(Renderable view) {
+	/**
+	 * Set a new view.
+	 * @param view The new view
+	 */
+	public void setView(View view) {
 		this.view = view;
 	}
 	
 	
-	
+	/**
+	 * Render the view to the lighthouse
+	 */
 	public void render() {	
-		// Fill data
+		// Data array
 		byte[] data = new byte[14 * 28 * 3];
 				
+		// Fill data if view is existent
 		if (view != null) {
 			for(GObject object : view.toGObjects(28, 14)) {
+				
+				// Loop over each pixel of in the current object
 				for(int i = 0; i < object.getWidth(); i++) {
 					for(int j = 0; j < object.getHeight(); j++) {
+						
+						// Get index of pixel and set rgb values
 						int pixelIndex = ((int)object.getX() + i) + 28*((int)object.getY() + j);
 						data[3 * pixelIndex] = (byte)object.getColor().getRed();
 						data[3 * pixelIndex + 1] = (byte)object.getColor().getGreen();

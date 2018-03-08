@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import acm.graphics.GRect;
 import acm.graphics.GObject;
 
-public class EndView implements Renderable {
+public class EndView implements View {
 
 	float offset = 0;
 	
@@ -21,7 +21,7 @@ public class EndView implements Renderable {
 	}
 
 	@Override
-	public ArrayList<GObject> toGObjects(double cvsWidth, double cvsHeight) {	
+	public ArrayList<GObject> toGObjects(int cvsWidth, int cvsHeight) {	
 		ArrayList<GObject> list = new ArrayList<GObject>();
 		
 		for (int i = 0; i < cvsHeight; i++) {

@@ -3,33 +3,55 @@ package view.renderer;
 import acm.graphics.*;
 import acm.program.GraphicsProgram;
 import model.GameModel;
-import view.Renderable;
+import view.View;
 
+/**
+ * Default renderer, renders to monitor.
+ */
 public class DefaultRenderer implements Renderer {
 	
+	// ***** FIELDS *****
+	
 	private GCanvas canvas;
-	private Renderable view;
+	private View view;
 	private GCompound last;
 	
-	public DefaultRenderer(Renderable view, GCanvas canvas) {
+	
+	
+	
+	
+	/**
+	 * Constructor.
+	 * @param view The view to be rendered
+	 * @param canvas The canvas to render on.
+	 */
+	public DefaultRenderer(View view, GCanvas canvas) {
 		this.canvas = canvas;
 		this.view = view;
 		last = new GCompound();
 	}
 	
 	
-	public void setView(Renderable view) {
+	/**
+	 * Update the view.
+	 */
+	public void setView(View view) {
 		this.view = view;
 	}
 	
 	
+	/**
+	 * Render the view to the canvas
+	 */
 	public void render() {		
-		canvas.remove(last);
-		
+		// Create and add new one compound
 		GCompound entities = new GCompound();
 		for (GObject object : view.toGObjects(canvas.getWidth(), canvas.getHeight())) {
 			entities.add(object);
 		}
+		
+		// Removing last compound, add new one
+		canvas.remove(last);
 		canvas.add(entities);
 		
 		last = entities;
